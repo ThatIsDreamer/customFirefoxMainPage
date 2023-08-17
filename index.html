@@ -3,10 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>New tab</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <img src="Fx-Browser-icon-oneColor-white.png" style="width: 130px; height: 130px; margin-top: 50px;">
+    <input class="searchbar">
+       
+    </input>
+    <div>
+        <button class="button">
+            <p style="font-size: 40px; color: white;">
+                +
+            </p>
+        </button>
+    </div>
+    <script>
+        let searchbar = document.querySelector('.searchbar')
+        document.addEventListener('keydown' , function(e){
+            if(e.key == "Enter" && searchbar.value != '')
+            {
+                let searchqueary = searchbar.value.replace(/ /g, '+');
+                let url = "https://www.google.com/search?q=" + searchqueary
+                window.location.replace(url)
+            }
+        })
+    </script>
 </body>
 </html>
