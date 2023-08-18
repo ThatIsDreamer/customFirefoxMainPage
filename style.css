@@ -5,6 +5,7 @@ body {
 	display: grid;
     place-items: center;
 	height: 100vh;
+	overflow: hidden;
 }
 
 @keyframes gradient {
@@ -20,11 +21,10 @@ body {
 }
 .searchbar
 {
-	padding: 10px;
-	font-size: 25px;
+	display: flex;
 	background-color: white;
 	width: 700px;
-	height: 30px;
+	height: 53px;
 	border-radius: 10px;
 	border: solid #bdc1c6 1px;
 }
@@ -41,4 +41,41 @@ body {
 	display: grid;
 	place-items: center;
 
+}
+#dial 
+{
+	
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.20) 4.83%, rgba(255, 255, 255, 0.08) 100%), linear-gradient(225deg, rgba(0, 0, 0, 0.57) 0%, rgba(0, 0, 0, 0.50) 100%);
+	box-shadow: -6px 8px 21px 2px rgba(0, 0, 0, 0.25);
+	backdrop-filter: blur(5px); 
+	border-radius: 30px;
+	height: 350px; 
+	width: 500px; 
+	border: none;
+
+}
+.bookmarksrow
+{
+	display: flex;
+
+}
+.buttonwrapper
+{
+	margin-left: 15px;
+	margin-right: 15px;
+	display: grid;
+	place-items: center;
+	width: 130px; 
+}
+.addbtn
+{
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 40s ease infinite;
+	display: grid;
+    place-items: center;
+	margin-top: 20px;
+	height: 45px;
+	width: 400px;
+	border-radius: 20px;
 }

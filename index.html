@@ -7,19 +7,97 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <img src="Fx-Browser-icon-oneColor-white.png" style="width: 130px; height: 130px; margin-top: 50px;">
-    <input class="searchbar">
-       
-    </input>
-    <div>
-        <button class="button">
-            <p style="font-size: 40px; color: white;">
-                +
+    <dialog id="dial">
+        <div style="display: grid; place-items: center;">
+            <p style="font-size: 30px; color: white; font-family: 'inter';">
+                add bookmark
             </p>
-        </button>
+
+            <p  style="font-size: 15px; color: white; font-family: 'inter';">
+                url:
+            </p>
+            <input  id="uri" style=" outline: none;background-color: white; width: 400px; height: 20px; border-radius: 5px; border: none; padding: 5px">
+            
+            <p  style="font-size: 15px; color: white; font-family: 'inter';">
+                name:
+            </p>
+            <input id="name" style="outline: none; background-color: white; width: 400px; height: 20px; border-radius: 5px; border: none; padding: 5px">
+            <div class="addbtn">
+                <p style="font-size: 15px; color: white; font-family: 'inter'; margin-bottom: 10px;">
+                    add
+                </p>
+            </div>
+        </div>
+    </dialog>
+    <img src="Fx-Browser-icon-oneColor-white.png" style="width: 130px; height: 130px; margin-top: 50px;">
+    <div class="searchbar">
+        <img src="Google_ G _Logo.svg.png" width="26px" height="26px" style="margin: 15px;">
+        <input id="searchinput" autofocus style="outline: none;height: 50px; font-weight: lighter; font-size: 18px; width: 650px;border-radius: 10px; border: none;">
+       
+        </input>
     </div>
+
+    <div class="bookmarksrow">
+        <div class="buttonwrapper">
+            <button id="add" class="button">
+                <p style="font-size: 40px; color: white;font-family: 'inter';">
+                    +
+                </p>
+            </button>
+            <p style="font-size: 20px; color: white; font-family: 'inter';">add</p>
+        </div>
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
     <script>
-        let searchbar = document.querySelector('.searchbar')
+        let searchbar = document.querySelector('#searchinput')
+        let dialog = document.querySelector('#dial')
+        let addbtn = document.querySelector('#add')
+        let addbookmarkbtn = document.querySelector('.addbtn')
+        let uri = document.querySelector("#uri")
+        let name = document.querySelector("#name")
+        let bookmarksrow = document.querySelector(".bookmarksrow")
+        let bookmarks = []
+        if('bookmarksarr' in localStorage)
+        {
+            bookmarks = JSON.parse(localStorage.getItem('bookmarksarr'))
+        }
+        else
+        {
+            localStorage.setItem('bookmarksarr', JSON.stringify([]))
+        }
+        console.log(bookmarks)
+       
+        let templateCode = `<div class="buttonwrapper">
+            <button id="bookmark" data-uri="{{uri}}"  class="button">
+                <img  height="32" width="32" src="https://icon.horse/icon/{{uri}}">
+            </button>
+            <p style="font-size: 20px; color: white; font-family: 'inter';">{{name}}</p>
+        </div>`
+        let template = Handlebars.compile(templateCode)
+
+
+
+        bookmarks.forEach(element => {
+            bookmarksrow.innerHTML += template(element)
+            console.log(bookmarks)
+            let bookmars = document.querySelectorAll("#bookmark");
+            for(let i = 0; i<bookmars.length; i++)
+            {
+                bookmars[i].addEventListener('click', function(){
+                    window.location.replace("https://"+bookmarks[i]['uri'])
+                    })
+                }
+                addbtn = document.querySelector('#add')
+                addbtn.addEventListener('click', function(){
+                    dialog.showModal();
+                })
+        });
+
+
+
+
         document.addEventListener('keydown' , function(e){
             if(e.key == "Enter" && searchbar.value != '')
             {
@@ -27,6 +105,38 @@
                 let url = "https://www.google.com/search?q=" + searchqueary
                 window.location.replace(url)
             }
+        })
+
+        addbookmarkbtn.addEventListener('click', function(){
+            
+            let urivalue = uri.value
+            let namevalue = name.value
+            if(urivalue != '' && namevalue != '')
+            { 
+
+                bookmarksrow.innerHTML += template({"uri": urivalue, "name": namevalue})
+                bookmarks.push({uri: urivalue, name: namevalue})
+                console.log(bookmarks)
+                let bookmars = document.querySelectorAll("#bookmark");
+                for(let i = 0; i<bookmars.length; i++)
+                {
+                    bookmars[i].addEventListener('click', function(){
+                        window.location.replace("https://"+bookmarks[i]['uri'])
+                    })
+                }
+                addbtn = document.querySelector('#add')
+                addbtn.addEventListener('click', function(){
+                    dialog.showModal();
+                })
+                dialog.close()
+                uri.value = ''
+                name.value = ''
+                localStorage.setItem('bookmarksarr', JSON.stringify(bookmarks))
+            }
+
+        })
+        addbtn.addEventListener('click', function(){
+            dialog.showModal();
         })
     </script>
 </body>
